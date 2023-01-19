@@ -1,0 +1,26 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "*"
+    tags-ignore:
+      - "v*"
+  pull_request: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+    - uses: actions/setup-go@v2
+      with:
+        go-version: '1.18'
+    - run: go build
+    - uses: actions/upload-artifact@v3
+      with:
+        name: binaries
+        path: namedotcom
+        retention-days: 3
